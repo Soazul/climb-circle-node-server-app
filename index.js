@@ -1,11 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import UserRoutes from "./Users/routes.js";
+import PostRoutes from "./Posts/routes.js"
 import session from "express-session";
 import "dotenv/config";
 import cors from "cors";
+import Hello from "./hello.js";
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/climb-circle"
 mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(cors({
@@ -28,4 +30,6 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(express.json());
 UserRoutes(app);
+PostRoutes(app);
+Hello(app);
 app.listen(process.env.PORT || 4000);
