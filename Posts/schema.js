@@ -4,7 +4,7 @@ const postSchema = new mongoose.Schema({
     title: String,
     location: String,
     description: String,
-    climb_type: {
+    climbType: {
         type: String,
         enum: ["Overhang", "Slab", "Cave"]
     },

@@ -5,7 +5,6 @@ import PostRoutes from "./Posts/routes.js"
 import session from "express-session";
 import "dotenv/config";
 import cors from "cors";
-import Hello from "./hello.js";
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/climb-circle"
 mongoose.connect(CONNECTION_STRING);
@@ -31,5 +30,4 @@ app.use(session(sessionOptions));
 app.use(express.json());
 UserRoutes(app);
 PostRoutes(app);
-Hello(app);
 app.listen(process.env.PORT || 4000);
