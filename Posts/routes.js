@@ -1,26 +1,18 @@
-import * as dao from "./dao.js"
+import * as dao from "./dao.js";
+import * as userDao from "../Users/dao.js";
 
 export default function PostsRoutes(app) {
     const createPost = async (req, res) => {
-        const {cid} = req.params;
-        const post = {
-            ...req.body,
-            course: cid,
-          };
-        const newPost = await dao.createPost(post);
-        res.json(newPost);
+        const post = await dao.createPost(req.body);
+        res.json(post);
     };
     app.post("/api/posts", createPost);
 
     const updatePost = async (req, res) => {
-        const postId = req.params.postId;
+        const { postId } = req.params;
         const postUpdates = req.body;
-        await dao.updateUser(postId, postUpdates);
-        const currentPost =  req.session["currentPost"];
-        if (currentPost && currentPost._id === postId) {
-          req.session["currentPost"] = { ...currentPost, ...postUpdates };
-        }
-        res.json(currentPost);
+        const status = await dao.updatePost(postId, postUpdates);
+        res.json(status);
     };
     app.put("/api/posts/:postId", updatePost);
 
