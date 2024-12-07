@@ -2,8 +2,13 @@ import * as dao from "./dao.js"
 
 export default function PostsRoutes(app) {
     const createPost = async (req, res) => {
-        const post = await dao.createPost(req.body);
-        res.json(post);
+        const {cid} = req.params;
+        const post = {
+            ...req.body,
+            course: cid,
+          };
+        const newPost = await dao.createPost(post);
+        res.json(newPost);
     };
     app.post("/api/posts", createPost);
 
@@ -15,7 +20,7 @@ export default function PostsRoutes(app) {
         if (currentPost && currentPost._id === postId) {
           req.session["currentPost"] = { ...currentPost, ...postUpdates };
         }
-        res.json(currentUser);
+        res.json(currentPost);
     };
     app.put("/api/posts/:postId", updatePost);
 
@@ -42,4 +47,11 @@ export default function PostsRoutes(app) {
         res.json(post);
     };
     app.get("/api/posts/:postId", findPostById);
-}
+    
+
+    const findPostsByUserId = async (req, res) => {
+        const posts = await dao.findPostsByUserId(req.params.userId);
+        res.json(posts);
+    };
+    app.get("/api/users/:userId/posts", findPostsByUserId);
+};
