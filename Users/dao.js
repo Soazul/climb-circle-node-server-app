@@ -10,3 +10,7 @@ export const findUserByCredentials = (username, password) => model.findOne({user
 export const updateUser = (userId, user) => model.updateOne({_id: userId}, {$set: user});
 export const deleteUser = (userId, user) => model.deleteOne({_id: userId});
 export const findUsersByRole = (role) => model.find({role: role});
+export const findUsersByPartialUsername = (partialUsername) => {
+    const regex = new RegExp(partialUsername, "i"); // 'i' makes it case-insensitive
+    return model.find({ username: { $regex: regex } });
+};

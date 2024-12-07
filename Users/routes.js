@@ -17,11 +17,11 @@ export default function UserRoutes(app) {
             res.json(users);
             return;
         }
-        if (name) {
-            const users = await dao.findUsersByPartialName(name);
-            res.json(users);
-            return;
-        }
+        // if (name) {
+        //     const users = await dao.findUsersByPartialName(name);
+        //     res.json(users);
+        //     return;
+        // }
         const users = await dao.findAllUsers();
         res.json(users);
     };
@@ -78,6 +78,22 @@ export default function UserRoutes(app) {
         const newPost = postDao.createPost(req.body);
         res.json(newPost);   
     };
+    const findUsersByPartialUsername = async (req, res) => {
+        const { username } = req.query;
+        const users = await dao.findUsersByPartialUsername(username);
+        res.json(users);
+        return;
+        
+        // const users = await dao.findAllUsers();
+        // res.json(users);
+    }
+
+    // const createPost = (req, res) => {
+    //     const currentUser = req.session["currentUser"];
+    //     const newPost = courseDao.createPost(req.body);
+    //     enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+    //     res.json(newCourse);   
+    // };
     // const findCoursesForUser = async (req, res) => {
     //     const currentUser = req.session["currentUser"];
     //     if (!currentUser) {
@@ -101,6 +117,7 @@ export default function UserRoutes(app) {
     app.post("/api/users/current/post", createPost);
     app.post('/api/users', createUser);
     app.get('/api/users', findAllUsers);
+    app.get('/api/users/search', findUsersByPartialUsername);
     app.get('/api/users/:userId', findUserById);
     app.put('/api/users/:userId', updateUser);
     app.delete('/api/users/:userId', deleteUser);
@@ -108,4 +125,5 @@ export default function UserRoutes(app) {
     app.post('/api/users/signin', signin);
     app.post('/api/users/signout', signout);
     app.post('/api/users/profile', profile);
+
 }

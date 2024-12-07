@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     username: { type: String, ref: "User", required: true },
+    user: mongoose.Types.ObjectId,
     location: String,
     description: String,
     climbType: {
