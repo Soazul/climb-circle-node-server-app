@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
     description: String,
     climbType: {
         type: String,
-        enum: ["Overhang", "Slab", "Cave"]
+        enum: ["Overhang", "Slab", "Cave", ""]
     },
     angle: Number,
     photo: String,
