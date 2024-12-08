@@ -56,8 +56,8 @@ export default function UserRoutes(app) {
         if (currentUser) {
             req.session["currentUser"] = currentUser;
             req.session.save()
-            console.log("asdf", req.session);
-            console.log(currentUser);
+            console.log("signin", currentUser);
+            console.log("i am signing in");
             res.json(currentUser);
         } else {
             res.status(401).json({ message: "Unable to login. Try again later." });
@@ -69,6 +69,7 @@ export default function UserRoutes(app) {
     };
     const profile = (req, res) => {
         const currentUser = req.session["currentUser"];
+        console.log("profile", currentUser)
         req.session.save()
         if (!currentUser) {
             res.sendStatus(401);
@@ -78,6 +79,7 @@ export default function UserRoutes(app) {
     };
     const createPost = (req, res) => {
         const currentUser = req.session["currentUser"];
+        console.log("createpost", currentUser);
         const newPost = postDao.createPost(req.body);
         res.json(newPost);
     };
