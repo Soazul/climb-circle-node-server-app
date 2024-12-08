@@ -9,7 +9,13 @@ const postSchema = new mongoose.Schema({
     },
     angle: Number,
     photo: String,
+    eventDate: Date,
+    cost: Number,
     likes: Array,
+    postType: {
+        type: String,
+        enum: ["Climb", "Event", "Sponsorship", "Merch", ""]
+    }
     }, {collection: "posts"}
 );
 
