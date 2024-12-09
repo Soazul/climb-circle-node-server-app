@@ -3,6 +3,7 @@ import * as userDao from "../Users/dao.js";
 
 export default function PostsRoutes(app) {
     const createPost = async (req, res) => {
+        console.log("createPost in postsRoutes")
         const post = await dao.createPost(req.body);
         res.json(post);
     };
