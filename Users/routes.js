@@ -143,6 +143,32 @@ export default function UserRoutes(app) {
             res.status(500).json({ message: "Error checking follow status", error });
         }
     };
+
+    const likePost = async (req, res) => {
+        const postId = req.params.postId;
+        const userId = req.params.userId;
+
+        try {
+            await dao.likePost(postId, userId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error liking post", error });
+        }
+    }
+
+    const unlikePost = async (req, res) => {
+        const postId = req.params.postId;
+        const userId = req.params.userId;
+
+        try {
+            await dao.unlikePost(postId, userId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error liking post", error });
+        }
+    }
+
+    
     
 
 
@@ -186,5 +212,7 @@ export default function UserRoutes(app) {
     app.post('/api/users/:userId/follow', addFollowerToUser);
     app.post('/api/users/:userId/unfollow', removeFollowerFromUser);
     app.get('/api/users/:userId/isFollowing', checkIfFollowing);
+    app.post('/api/users/:userId/:postId/like', likePost);
+    app.post('/api/users/:userId/:postId/unlike', unlikePost);
 
 }

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 const postSchema = new mongoose.Schema({
     username: { type: String, ref: "User", required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -12,7 +12,12 @@ const postSchema = new mongoose.Schema({
     photo: String,
     eventDate: Date,
     cost: Number,
-    likes: Array,
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     postType: {
         type: String,
         enum: ["Climb", "Event", "Sponsorship", "Merch", ""]

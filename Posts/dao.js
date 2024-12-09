@@ -16,3 +16,23 @@ export const findPostsByPartialTitle = (partialTitle) => {
 export const findPostsByUserId = async (userId) => {
     return await model.find({ user: userId });
 };
+
+export const likePost = async (postId, userId) => {
+    await model.findByIdAndUpdate(
+        postId, 
+        { $addToSet: { likes: userId } },
+        { new: true }
+    )
+}
+
+export const unlikePost = async (postId, userId) => {
+    await model.findByIdAndUpdate(
+        postId, 
+        { $pull: { likes: userId } },
+        { new: true }
+    )
+}
+
+export const findLikedPostsByUserId = async (userId) => {
+    return await model.find({ likes: userId });
+};

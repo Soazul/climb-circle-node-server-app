@@ -45,5 +45,38 @@ export default function PostsRoutes(app) {
         const posts = await dao.findPostsByUserId(req.params.userId);
         res.json(posts);
     };
-    app.get("/api/users/:userId/posts", findPostsByUserId);
+    app.get("/api/posts/:userId/posts", findPostsByUserId);
+
+    const likePost = async (req, res) => {
+        const postId = req.params.postId;
+        const userId = req.params.userId;
+
+        try {
+            await dao.likePost(postId, userId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error adding like to post", error });
+        }
+    }
+    app.post("/api/posts/:postId/:userId/like", likePost);
+
+    const unlikePost = async (req, res) => {
+        const postId = req.params.postId;
+        const userId = req.params.userId;
+
+        try {
+            await dao.unlikePost(postId, userId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error removing like from post", error });
+        }
+    }
+    app.post("/api/posts/:postId/:userId/unlike", unlikePost);
+
+    const findLikedPostsByUserId = async (req, res) => {
+        const userId = req.params.userId;
+        const posts = await dao.findLikedPostsByUserId(userId);
+        res.json(posts);
+    }
+    app.get("/api/posts/:userId/posts/liked", findLikedPostsByUserId);
 };

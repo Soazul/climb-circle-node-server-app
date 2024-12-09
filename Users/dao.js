@@ -43,3 +43,23 @@ export const isFollowingUser = async (userId, currentUserId) => {
     if (!user) return false;
     return user.followers.includes(currentUserId);
 };
+
+export const likePost = async (postId, userId) => {
+    const user = await model.findById(userId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        userId, 
+        { $addToSet: { likedPosts: postId } },
+        { new: true }
+    )
+}
+
+export const unlikePost = async (postId, userId) => {
+    const user = await model.findById(userId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        userId, 
+        { $pull: { likedPosts: postId } },
+        { new: true }
+    )
+}
