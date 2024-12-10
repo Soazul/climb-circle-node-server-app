@@ -152,15 +152,14 @@ export default function UserRoutes(app) {
         const currentUser = req.session["currentUser"];
         res.json(currentUser)
     };
-
-    app.get('/api/users/current', fetchCurrentUser);
+    
     const findGymByPlaceId = async (req, res) => {
         const placeId = req.params.placeId;
         const gym = await dao.findGymByPlaceId(placeId);
         res.json(gym);
-    }    
-     
-    app.post("/api/users/current/post", createPost);
+    };    
+
+    app.get('/api/users/current', fetchCurrentUser);
     app.post('/api/users', createUser);
     app.get('/api/users', findAllUsers);
     app.get('/api/users/search', findUsersByPartialUsername);
