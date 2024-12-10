@@ -1,7 +1,7 @@
 import mongoose, { Mongoose } from "mongoose";
 const postSchema = new mongoose.Schema({
-    username: { type: String, ref: "User", required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    username: { type: String, ref: "UserModel", required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel" },
     location: String,
     description: String,
     climbType: {
@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema({
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "UserModel"
         }
     ],
     postType: {

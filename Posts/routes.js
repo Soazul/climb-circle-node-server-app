@@ -79,4 +79,18 @@ export default function PostsRoutes(app) {
         res.json(posts);
     }
     app.get("/api/posts/:userId/posts/liked", findLikedPostsByUserId);
+
+    const findFollowingPosts = async (req, res) => {
+        const userId = req.params.userId;
+        const posts = await dao.findFollowingPosts(userId);
+        res.json(posts);
+    }
+    app.get("/api/posts/:userId/following/posts", findFollowingPosts);
+
+    const findExplorePosts = async (req, res) => {
+        const userId = req.params.userId;
+        const posts = await dao.findExplorePosts(userId);
+        res.json(posts);
+    }
+    app.get("/api/posts/:userId/explore/posts", findExplorePosts);
 };

@@ -11,19 +11,19 @@ const userSchema = new mongoose.Schema({
     followers: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "UserModel"
         }
     ],
     following: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "UserModel"
         }
     ],
     likedPosts:[ 
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Posts"
+            ref: "PostsModel"
         }
     ],
     placeId: { type: String, unique: true, default: null }

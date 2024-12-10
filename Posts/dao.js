@@ -1,4 +1,5 @@
 import model from "./model.js";
+import UserModel from "../Users/model.js";
 
 export const createPost = (post) => {
     return model.create(post);
@@ -35,4 +36,28 @@ export const unlikePost = async (postId, userId) => {
 
 export const findLikedPostsByUserId = async (userId) => {
     return await model.find({ likes: userId });
+};
+
+export const findPostsByUserIds = async (userIds) => {
+    return await model.find({ user: { $in: userIds } }); 
+};
+
+export const findFollowingPosts = async (userId) => {
+    const user = await UserModel.findById(userId).populate('following');
+    const followingIds = user.following.map(followingUser => followingUser._id);
+    const posts = await findPostsByUserIds(followingIds);
+    return posts;
+};
+
+export const findExplorePosts = async (userId) => {
+    const user = await UserModel.findById(userId).populate('following');
+    const followingIds = user.following.map(followingUser => followingUser._id);
+    const allPosts = await model.find();
+    const explorePosts = allPosts.filter(post => 
+        post.user.toString() !== userId
+    );
+    const filteredAgainPosts = explorePosts.filter(post => 
+        !followingIds.map(id => id.toString()).includes(post.user.toString())
+    );
+    return filteredAgainPosts;
 };
