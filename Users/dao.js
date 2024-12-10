@@ -63,3 +63,5 @@ export const unlikePost = async (postId, userId) => {
         { new: true }
     )
 }
+
+export const findGymByPlaceId = async (placeId) => await model.findOne({ placeId: placeId });

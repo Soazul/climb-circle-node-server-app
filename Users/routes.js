@@ -159,6 +159,13 @@ export default function UserRoutes(app) {
         }
     }
 
+    const findGymByPlaceId = async (req, res) => {
+        const placeId = req.params.placeId;
+        const gym = await dao.findGymByPlaceId(placeId);
+        res.json(gym);
+    }    
+     
+    app.post("/api/users/current/post", createPost);
     app.post('/api/users', createUser);
     app.get('/api/users', findAllUsers);
     app.get('/api/users/search', findUsersByPartialUsername);
@@ -174,5 +181,5 @@ export default function UserRoutes(app) {
     app.get('/api/users/:userId/isFollowing', checkIfFollowing);
     app.post('/api/users/:userId/:postId/like', likePost);
     app.post('/api/users/:userId/:postId/unlike', unlikePost);
-
+    app.get('/api/users/gyms/:placeId', findGymByPlaceId);
 }
