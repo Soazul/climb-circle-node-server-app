@@ -119,7 +119,6 @@ export default function UserRoutes(app) {
             const isFollowing = await dao.isFollowingUser(userId, currentUserId);
             res.json({ isFollowing });
         } catch (error) {
-            console.error("Error in checkIfFollowing:", error);
             res.status(500).json({ message: "Error checking follow status", error });
         }
     };
