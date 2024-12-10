@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema({
             ref: "PostsModel"
         }
     ],
+    favoriteGyms: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     placeId: { type: String, unique: true, default: null }
 }, { collection: "users" }
 );

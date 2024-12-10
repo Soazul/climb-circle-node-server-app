@@ -156,7 +156,55 @@ export default function UserRoutes(app) {
         const placeId = req.params.placeId;
         const gym = await dao.findGymByPlaceId(placeId);
         res.json(gym);
-    };    
+    };
+
+    const favoriteGym = async (req, res) => {
+        const gymUserId = req.params.gymUserId;
+        const currentUserId = req.session["currentUser"]?._id;
+
+        try {
+            await dao.favoriteGym(gymUserId, currentUserId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error favoriting gym", error });
+        }
+    };
+
+    const unfavoriteGym = async (req, res) => {
+        const gymUserId = req.params.gymUserId;
+        const currentUserId = req.session["currentUser"]?._id;
+
+        try {
+            await dao.unlikePost(gymUserId, currentUserId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error unfavoriting gym", error });
+        }
+    };
+
+    const registerLocation = async (req, res) => {
+        const placeId = req.params.placeId;
+        const currentUserId = req.session["currentUser"]?._id;
+
+        try {
+            await dao.registerLocation(placeId, currentUserId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error registering gym location", error });
+        }
+    };
+
+    const unregisterLocation = async (req, res) => {
+        const placeId = req.params.placeId;
+        const currentUserId = req.session["currentUser"]?._id;
+
+        try {
+            await dao.unregisterLocation(placeId, currentUserId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).json({ message: "Error unregistering gym location", error });
+        }
+    };
 
     app.get('/api/users/current', fetchCurrentUser);
     app.post('/api/users', createUser);
@@ -175,4 +223,8 @@ export default function UserRoutes(app) {
     app.post('/api/users/:userId/:postId/like', likePost);
     app.post('/api/users/:userId/:postId/unlike', unlikePost);
     app.get('/api/users/gyms/:placeId', findGymByPlaceId);
+    app.post('/api/users/gyms/favorite/:gymUserId', favoriteGym);
+    app.post('/api/users/gyms/unfavorite/:gymUserId', unfavoriteGym);
+    app.post('/api/users/gyms/register/:placeId', registerLocation);
+    app.post('/api/users/gyms/unregister/:placeId', unregisterLocation);
 }

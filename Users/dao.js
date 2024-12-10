@@ -65,3 +65,43 @@ export const unlikePost = async (postId, userId) => {
 }
 
 export const findGymByPlaceId = async (placeId) => await model.findOne({ placeId: placeId });
+
+export const favoriteGym = async (gymUserId, userId) => {
+    const user = await model.findById(gymUserId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        userId,
+        { $addToSet: { favoriteGyms: gymUserId } },
+        { new: true }
+    )
+}
+
+export const unfavoriteGym = async (gymUserId, userId) => {
+    const user = await model.findById(gymUserId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        userId,
+        { $pull: { favoriteGyms: gymUserId } },
+        { new: true }
+    )
+}
+
+export const registerLocation = async (placeId, gymUserId) => {
+    const user = await model.findById(gymUserId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        gymUserId,
+        { placeId: placeId },
+        { new: true }
+    )
+}
+
+export const unregisterLocation = async (placeId, gymUserId) => {
+    const user = await model.findById(gymUserId);
+    if (!user) return false;
+    await model.findByIdAndUpdate(
+        gymUserId,
+        { placeId: null },
+        { new: true }
+    )
+}
