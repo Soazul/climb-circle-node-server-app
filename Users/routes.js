@@ -1,5 +1,4 @@
 import * as dao from "./dao.js";
-import * as postDao from "../Posts/dao.js";
 
 export default function UserRoutes(app) {
     const createUser = async (req, res) => {
@@ -17,11 +16,6 @@ export default function UserRoutes(app) {
             res.json(users);
             return;
         }
-        // if (name) {
-        //     const users = await dao.findUsersByPartialName(name);
-        //     res.json(users);
-        //     return;
-        // }
         const users = await dao.findAllUsers();
         res.json(users);
     };
@@ -56,8 +50,6 @@ export default function UserRoutes(app) {
         if (currentUser) {
             req.session["currentUser"] = currentUser;
             req.session.save()
-            console.log("signin", currentUser);
-            console.log("i am signing in");
             res.json(currentUser);
         } else {
             res.status(401).json({ message: "Unable to login. Try again later." });
@@ -69,7 +61,6 @@ export default function UserRoutes(app) {
     };
     const profile = (req, res) => {
         const currentUser = req.session["currentUser"];
-        console.log("profile", currentUser)
         req.session.save()
         if (!currentUser) {
             res.sendStatus(401);
@@ -123,8 +114,6 @@ export default function UserRoutes(app) {
     const checkIfFollowing = async (req, res) => { 
         const userId = req.params.userId;
         const currentUserId = req.session["currentUser"]?._id;
-        console.log("Session Data:", req.session);
-        console.log("Current User ID:", currentUserId);
     
         try {
             const isFollowing = await dao.isFollowingUser(userId, currentUserId);
@@ -145,7 +134,7 @@ export default function UserRoutes(app) {
         } catch (error) {
             res.status(500).json({ message: "Error liking post", error });
         }
-    }
+    };
 
     const unlikePost = async (req, res) => {
         const postId = req.params.postId;
@@ -157,8 +146,14 @@ export default function UserRoutes(app) {
         } catch (error) {
             res.status(500).json({ message: "Error liking post", error });
         }
-    }
+    };
 
+    const fetchCurrentUser = async (req, res) => {
+        const currentUser = req.session["currentUser"];
+        res.json(currentUser)
+    };
+
+    app.get('/api/users/current', fetchCurrentUser);
     app.post('/api/users', createUser);
     app.get('/api/users', findAllUsers);
     app.get('/api/users/search', findUsersByPartialUsername);
