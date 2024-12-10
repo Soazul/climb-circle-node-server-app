@@ -23,9 +23,10 @@ const userSchema = new mongoose.Schema({
     likedPosts:[ 
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"Posts"
+            ref: "Posts"
         }
-    ]
+    ],
+    placeId: { type: String, unique: true, default: null }
 }, { collection: "users" }
 );
 
