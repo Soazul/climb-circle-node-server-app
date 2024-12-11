@@ -61,3 +61,7 @@ export const findExplorePosts = async (userId) => {
     );
     return filteredAgainPosts;
 };
+
+export const updatePostUsernames = async (userId, username) => {
+    return await model.updateMany({ user: userId }, { username: username });
+}

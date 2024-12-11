@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
-    placeId: { type: String, unique: true, default: null }
+    placeId: { type: String, default: null }
 }, { collection: "users" }
 );
 

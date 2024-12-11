@@ -93,4 +93,14 @@ export default function PostsRoutes(app) {
         res.json(posts);
     }
     app.get("/api/posts/:userId/explore/posts", findExplorePosts);
+
+    const updatePostUsernames = async (req, res) => {
+        const userId = req.params.userId;
+        const username = req.body.username;
+        const status = await dao.updatePostUsernames(userId, username);
+        console.log("id", userId);
+        console.log("username", username);
+        res.json(status);
+    }
+    app.put("/api/posts/:userId/update-usernames", updatePostUsernames);
 };
